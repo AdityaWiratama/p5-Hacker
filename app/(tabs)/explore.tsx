@@ -1,109 +1,129 @@
-import { StyleSheet, Image, Platform } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-
-export default function TabTwoScreen() {
+const ProfileScreen = () => {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+    <ScrollView contentContainerStyle={styles.container}>
+      {/* Header Gambar */}
+      <Image
+        source={require("../../assets/images/culinary-logo.png")} // Ganti dengan logo kuliner yang anda sukai
+        style={styles.profileImage}
+      />
+
+      {/* Nama Aplikasi */}
+      <Text style={styles.appName}>Kulinerku</Text>
+
+      {/* Tagline */}
+      <Text style={styles.tagline}>
+        <Ionicons name="fast-food" size={20} color="#A0522D" />{" "}
+        "Nikmati Cita Rasa Dunia, Langsung dari Dapur Anda"
+      </Text>
+
+      {/* Informasi Aplikasi */}
+      <View style={styles.infoContainer}>
+        <Text style={styles.description}>
+          Kulinerku adalah aplikasi kuliner yang menawarkan berbagai resep, tips memasak, dan ide
+          hidangan. Mulai dari masakan tradisional hingga hidangan internasional, Kulinerku siap
+          menjadi teman setia Anda di dapur.
+        </Text>
+      </View>
+
+      {/* Fitur Utama */}
+      <View style={styles.featuresContainer}>
+        <Text style={styles.featuresTitle}>Fitur Utama:</Text>
+        <View style={styles.feature}>
+          <Ionicons name="restaurant" size={24} color="#8B4513" />
+          <Text style={styles.featureText}>Resep Lengkap dan Variatif</Text>
+        </View>
+        <View style={styles.feature}>
+          <Ionicons name="timer" size={24} color="#8B4513" />
+          <Text style={styles.featureText}>Tips Memasak Cepat</Text>
+        </View>
+        <View style={styles.feature}>
+          <Ionicons name="nutrition" size={24} color="#8B4513" />
+          <Text style={styles.featureText}>Panduan Menu Sehat</Text>
+        </View>
+      </View>
+
+      {/* Footer */}
+      <Text style={styles.footer}>© 2024 Kulinerku. Semua hak dilindungi.</Text>
+    </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: {
+    flexGrow: 1,
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#FFF5E1',
   },
-  titleContainer: {
+  profileImage: {
+    width: 150,
+    height: 150,
+    marginBottom: 20,
+    resizeMode: 'contain',
+    borderRadius: 75,
+    borderWidth: 2,
+    borderColor: '#8B4513',
+  },
+  appName: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    color: '#8B4513',
+  },
+  tagline: {
+    fontSize: 16,
+    fontStyle: 'italic',
+    textAlign: 'center',
+    color: '#A0522D',
+    marginBottom: 20,
+  },
+  infoContainer: {
+    alignItems: 'center',
+    marginVertical: 10,
+    paddingHorizontal: 20,
+  },
+  description: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: '#555',
+    lineHeight: 22,
+  },
+  featuresContainer: {
+    width: '100%',
+    marginTop: 20,
+    paddingHorizontal: 20,
+    backgroundColor: '#FDEBD0',
+    borderRadius: 12,
+    paddingVertical: 16,
+    elevation: 4,
+  },
+  featuresTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#8B4513',
+    marginBottom: 12,
+    textAlign: 'center',
+  },
+  feature: {
     flexDirection: 'row',
-    gap: 8,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  featureText: {
+    fontSize: 16,
+    color: '#555',
+    marginLeft: 10,
+  },
+  footer: {
+    fontSize: 14,
+    color: '#A0522D',
+    marginTop: 20,
+    textAlign: 'center',
   },
 });
+
+export default ProfileScreen;
