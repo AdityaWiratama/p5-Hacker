@@ -7,7 +7,7 @@ const ProfileScreen = () => {
     <ScrollView contentContainerStyle={styles.container}>
       {/* Header Gambar */}
       <Image
-        source={require("../../assets/images/culinary-logo.png")} // Ganti dengan logo kuliner yang anda sukai
+        source={require("../../assets/images/Culinaryy-logo.jpg")} // Ganti dengan logo kuliner yang anda sukai
         style={styles.profileImage}
       />
 

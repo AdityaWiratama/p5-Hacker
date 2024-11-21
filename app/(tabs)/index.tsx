@@ -5,14 +5,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // Data untuk kategori dan menu
 const FILTER_OPTIONS = [
   { id: "0", label: "All" },
-  { id: "food", label: "Food" },
-  { id: "drink", label: "Drink" },
+  { id: "1", label: "Desserts" },
+  { id: "2", label: "Drink" },
+  { id: "3", label: "Vegetarian" },
+  { id: "4", label: "Snack" },
 ];
 
 const DATA = [
   { id: '1',
     category_id: '1', 
-    type: 'food', 
+    type: 'Food', 
     title: 'Bruschetta', 
     image: 'https://www.spar.co.uk/media/rjzpdyrp/italian-bruschetta.jpg', 
     overview: 'Makanan pembuka khas Italia yang terbuat dari roti panggang renyah, dioleskan dengan bawang putih segar, dan disiram dengan minyak zaitun berkualitas tinggi. Dihiasi dengan campuran tomat cincang, daun basil, dan sedikit garam laut, hidangan ini menjadi pilihan sempurna untuk memulai setiap makan.' },
@@ -26,7 +28,7 @@ const DATA = [
 
   { id: '3', 
     category_id: '3', 
-    type: 'food', 
+    type: 'Vegetarian', 
     title: 'Salad', 
     image: 'https://cdn1-production-images-kly.akamaized.net/UdGxQFOr-QQtc5wFZcl9mvZcfwM=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3390091/original/047746000_1614610130-Croatian_Salad.jpg', 
     overview: 'Hidangan segar ini menggabungkan berbagai jenis sayuran, buah-buahan, dan kacang-kacangan, yang semua disatukan untuk menciptakan campuran tekstur dan rasa yang sempurna. Saus dressing yang digunakan memberikan keseimbangan, baik rasa creamy maupun asam, menjadikannya pendamping atau hidangan ringan yang ideal.' },
@@ -102,7 +104,7 @@ const DATA = [
     overview: 'Pastry Prancis yang renyah dan buttery ini memiliki lapisan-lapisan halus yang meleleh di mulut. Croissant yang keemasan dan garing di luar ini memiliki interior yang lembut dan ringan. Sering dinikmati saat sarapan atau sebagai camilan, croissant juga bisa diisi dengan cokelat, pasta almond, atau hanya dinikmati begitu saja.' },
 
   { id: '14', 
-    category_id: '1', 
+    category_id: '4', 
     type: 'food', 
     title: 'Pizza', 
     image: 'https://cdn1-production-images-kly.akamaized.net/m5Es7e9OWVFsHJE7idtl4E2EIL8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3184486/original/057993000_1595219338-pizza-slices-marble-chopping-board_23-2147926088.jpg', 
@@ -140,7 +142,7 @@ const DATA = [
     },
 
     { 
-      id: '21', 
+      id: '20', 
       category_id: '2', 
       type: 'drink', 
       title: 'Iced Latte', 
@@ -154,8 +156,8 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("0");
   const [modalVisible, setModalVisible] = useState(false); // State untuk modal
-  const [selectedImage, setSelectedImage] = useState(''); // State untuk menyimpan gambar yang dipilih
-  const [selectedDescription, setSelectedDescription] = useState(''); // State untuk menyimpan deskripsi yang dipilih
+  const [selectedImage, setSelectedImage] = useState(""); // State untuk menyimpan gambar yang dipilih
+  const [selectedDescription, setSelectedDescription] = useState(""); // State untuk menyimpan deskripsi yang dipilih
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -170,9 +172,11 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Filter recipes based on category_id and search query
   const filteredRecipes = DATA.filter((item) => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesFilter = selectedFilter === "0" || item.type === selectedFilter;
+    const matchesFilter =
+      selectedFilter === "0" || item.category_id === selectedFilter; // Filter by category_id
     return matchesSearch && matchesFilter;
   });
 
@@ -184,7 +188,7 @@ export default function Home() {
           style={styles.backgroundImage}
         >
           <View style={styles.introContainer}>
-            <Text style={styles.introText}>Welcome to the food website</Text>
+            <Text style={styles.introText}>Welcome to the culinary app</Text>
             <Text style={styles.introSubText}>Explore delicious recipes here.</Text>
           </View>
         </ImageBackground>
@@ -238,12 +242,11 @@ export default function Home() {
         keyExtractor={(item) => item.id}
       />
 
-      {/* Modal untuk menampilkan gambar besar dan deskripsinya */}
       <Modal
         visible={modalVisible}
         transparent={true}
         animationType="fade"
-        onRequestClose={() => setModalVisible(false)}  // Menutup modal
+        onRequestClose={() => setModalVisible(false)} // Menutup modal
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
@@ -251,7 +254,6 @@ export default function Home() {
               <Text style={styles.closeButtonText}>X</Text>
             </TouchableOpacity>
             <Image source={{ uri: selectedImage }} style={styles.modalImage} />
-            {/* Menampilkan deskripsi */}
             <Text style={styles.modalDescription}>{selectedDescription}</Text>
           </View>
         </View>
@@ -267,46 +269,21 @@ const styles = StyleSheet.create({
   backgroundImage: { width: "100%", height: "100%", justifyContent: "center", alignItems: "center" },
   introContainer: { justifyContent: "center", alignItems: "center" },
   introText: { fontSize: 30, color: "#fff", fontWeight: "bold" },
-  introSubText: { color: "#fff", fontSize: 20 },
-  filterContainer: { flexDirection: "row", margin: 10, justifyContent: "space-evenly" },
-  filterButton: { padding: 10, backgroundColor: "#ddd", borderRadius: 8 },
-  selectedFilter: { backgroundColor: "#6200ee" },
-  filterText: { fontSize: 16, color: "#333" },
-  searchInput: { padding: 10, borderWidth: 1, borderRadius: 8, borderColor: "#ddd", margin: 10 },
-  card: { marginBottom: 10, backgroundColor: "#fff", borderRadius: 8, shadowOffset: { width: 0, height: 2 }, shadowColor: "rgba(0, 0, 0, 0.1)", shadowRadius: 4, shadowOpacity: 1 },
-  recipeImage: { width: "100%", height: 300, borderTopLeftRadius: 8, borderTopRightRadius: 8, resizeMode: "cover" },
-  cardContent: { padding: 10 },
+  introSubText: { fontSize: 18, color: "#fff" },
+  filterContainer: { flexDirection: "row", justifyContent: "space-around", marginVertical: 10 },
+  filterButton: { paddingVertical: 10, paddingHorizontal: 20, borderRadius: 20, backgroundColor: "#e1e1e1" },
+  selectedFilter: { backgroundColor: "#3e4a59" },
+  filterText: { color: "#000" },
+  searchInput: { borderColor: "#ccc", borderWidth: 1, borderRadius: 10, padding: 10, margin: 10 },
+  card: { flexDirection: "row", margin: 10, backgroundColor: "#f9f9f9", borderRadius: 10, overflow: "hidden" },
+  recipeImage: { width: 100, height: 100, borderRadius: 10 },
+  cardContent: { padding: 10, flex: 1 },
   cardTitle: { fontSize: 18, fontWeight: "bold" },
-  cardOverview: { fontSize: 14, color: "#555", marginTop: 5, lineHeight: 20 },
-
-  // Gaya untuk modal
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
-  },
-  modalContent: {
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  modalImage: { width: 300, height: 300, resizeMode: "contain" },
-  closeButton: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-    backgroundColor: "#000",
-    padding: 10,
-    borderRadius: 20,
-  },
-  closeButtonText: { color: "#fff", fontSize: 18 },
-  modalDescription: {
-    marginTop: 20,
-    fontSize: 16,
-    color: '#555',
-    textAlign: 'center',
-    paddingHorizontal: 20,
-  },
+  cardOverview: { fontSize: 14, color: "#555" },
+  modalOverlay: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0, 0, 0, 0.7)" },
+  modalContent: { backgroundColor: "#fff", borderRadius: 10, padding: 20, alignItems: "center", width: "80%" },
+  modalImage: { width: "100%", height: 200, borderRadius: 10 },
+  modalDescription: { marginTop: 20, fontSize: 16, color: "#333" },
+  closeButton: { position: "absolute", top: 10, right: 10 },
+  closeButtonText: { fontSize: 18, color: "#000" },
 });
